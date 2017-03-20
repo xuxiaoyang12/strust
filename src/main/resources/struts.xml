@@ -1,0 +1,48 @@
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <!--修改后缀 默认是action-->
+    <!--1.直接修改-->
+    <!--<constant name="struts.action.extension" value="do,tuanjie"/>-->
+    <!--2。穿件一个配置文件修改-->
+
+    <!--
+        namespace 代表上层url  user/list
+        method 请求方法名
+
+        type类型
+            dispatcher 请求转发
+            redirect 重定向
+    -->
+
+    <package name="userPackage" extends="struts-default">
+        <action name="user" class="com.kaishengit.action.UserAction" >
+            <result name="success">/WEB-INF/views/user/list.jsp</result>
+        </action>
+        <action name="list" class="com.kaishengit.action.UserAction" method="list">
+            <result name="success" type="dispatcher" >
+                /WEB-INF/views/user/list.jsp
+            </result>
+        </action>
+
+    </package>
+    <!--请求转发-->
+    <package name="hello" extends="struts-default" namespace="/hello">
+        <action name="hello" class="com.kaishengit.action.HelloAction">
+            <result name="success" type="chain">
+                <!--action的url路径-->
+                <param name="actionName">list</param>
+                <!--要跳转的方法名称-->
+                <param name="method">list</param>
+            </result>
+        </action>
+        <action name="hi" class="com.kaishengit.action.HelloAction" method="hi">
+            <result name="success" type="redirectAction">
+                <param name="actionName">list</param>
+            </result>
+        </action>
+    </package>
+
+</struts>
